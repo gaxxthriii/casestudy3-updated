@@ -1,0 +1,49 @@
+ .card{
+    background: linear-gradient(to left, #f7cfd8);
+ }
+  .card-header {
+    background-color:  #570741 !important; /* Bootstrap primary */
+    color: white !important;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+  
+  .login-body {
+    padding: 1.5rem;
+  }
+  
+  .card-footer {
+    background-color: #fff8f8 !important;
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  
+  .form-label {
+    font-weight: 500;
+  }
+  
+  .btn {
+    background-color: #a30c44 !important;
+    border: none !important;
+    box-shadow: 0 4px 8px black;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color:#e5667d;
+    border: none;
+  }
+  
+  .alert {
+    margin-top: 10px;
+  }
+  .nav-item:hover{
+    background-color: #a53860 !important;
+    border-radius: 5px !important;
+ ;
+    
+  }

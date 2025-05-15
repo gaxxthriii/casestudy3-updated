@@ -1,0 +1,19 @@
+.me-2{
+    background-color: green !important;
+    box-shadow:  0 2px 4px black !important;
+    font-weight: 500 !important;
+
+}
+.me-2:hover{
+    background-color: #73946b !important;
+    color: black !important;
+    font-weight: 500;
+}
+.me-3{
+    background-color: #d13212 !important;
+}
+.me-3:hover{
+    background-color: #e3837c !important;
+    color: black !important;
+    font-weight: 500 !important;
+}
