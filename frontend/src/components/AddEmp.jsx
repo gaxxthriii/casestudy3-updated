@@ -1,15 +1,14 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import axiosInstance from '../axiosinterceptor';
 import { useEffect, useState } from 'react';
-import '../css/AddEmp.css';
 
 const AddEmployee = () => {
   const [form, setForm] = useState({
-    name: '',         
+    name: '',
     empid: '',
     designation: '',
     salary: '',
-    location: '',     
+    location: '',
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ const AddEmployee = () => {
     if (location.state?.employee) {
       const emp = location.state.employee;
       setForm({
-        name: emp.name || '',    // Changed empname to name
+        name: emp.name || '',
         empid: emp.empid || '',
         designation: emp.designation || '',
         salary: emp.salary || '',
@@ -31,7 +30,7 @@ const AddEmployee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.empid) { // Changed empname to name
+    if (!form.name || !form.empid) {
       setError('Employee name and ID are required.');
       return;
     }
@@ -40,13 +39,15 @@ const AddEmployee = () => {
       const token = localStorage.getItem('token');
 
       if (location.state?.employee) {
-        // Edit mode
-        await axiosInstance.put(`http://localhost:3000/admin/edit/${location.state.employee._id}`, form, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axiosInstance.put(
+          `http://localhost:3000/admin/edit/${location.state.employee._id}`,
+          form,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         alert('Employee updated successfully!');
       } else {
-        // Add mode
         await axiosInstance.post('http://localhost:3000/admin/addemp', form, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -60,80 +61,133 @@ const AddEmployee = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="row justify-content-center">
-        <div className="col-md-8">
-          <div className="card shadow">
-            <div className="card-header bg-success text-white text-center">
-              <h4>{location.state?.employee ? 'Edit Employee' : 'Add New Employee'}</h4>
-            </div>
-            <div className="card-body">
-              <form onSubmit={handleSubmit}>
-                {error && <div className="alert alert-danger">{error}</div>}
+    <div style={{ maxWidth: '400px', margin: '2rem auto', padding: '1rem', fontFamily: 'Arial, sans-serif' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+        {location.state?.employee ? 'Edit Employee' : 'Add New Employee'}
+      </h2>
 
-                <div className="mb-3">
-                  <label className="form-label">Employee Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={form.name}    
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}  
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Employee ID</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={form.empid}
-                    onChange={(e) => setForm({ ...form, empid: e.target.value })}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Designation</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={form.designation}
-                    onChange={(e) => setForm({ ...form, designation: e.target.value })}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Salary</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={form.salary}
-                    onChange={(e) => setForm({ ...form, salary: e.target.value })}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Location</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={form.location}
-                    onChange={(e) => setForm({ ...form, location: e.target.value })}
-                  />
-                </div>
-
-                <div className="d-grid">
-                  <button type="submit" className="btn btn-success">
-                    {location.state?.employee ? 'Update Employee' : 'Add Employee'}
-                  </button>
-                </div>
-              </form>
-            </div>
-            <div className="card-footer text-muted text-center">
-              Employee Management System
-            </div>
-          </div>
+      {error && (
+        <div
+          style={{
+            backgroundColor: '#f8d7da',
+            color: '#721c24',
+            padding: '10px',
+            marginBottom: '1rem',
+            borderRadius: '4px',
+            border: '1px solid #f5c6cb',
+          }}
+        >
+          {error}
         </div>
-      </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name" style={{ display: 'block', marginBottom: '0.25rem' }}>
+          Employee Name:
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          style={{
+            width: '100%',
+            padding: '8px',
+            marginBottom: '1rem',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <label htmlFor="empid" style={{ display: 'block', marginBottom: '0.25rem' }}>
+          Employee ID:
+        </label>
+        <input
+          type="text"
+          id="empid"
+          name="empid"
+          value={form.empid}
+          onChange={(e) => setForm({ ...form, empid: e.target.value })}
+          style={{
+            width: '100%',
+            padding: '8px',
+            marginBottom: '1rem',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <label htmlFor="designation" style={{ display: 'block', marginBottom: '0.25rem' }}>
+          Designation:
+        </label>
+        <input
+          type="text"
+          id="designation"
+          name="designation"
+          value={form.designation}
+          onChange={(e) => setForm({ ...form, designation: e.target.value })}
+          style={{
+            width: '100%',
+            padding: '8px',
+            marginBottom: '1rem',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <label htmlFor="salary" style={{ display: 'block', marginBottom: '0.25rem' }}>
+          Salary:
+        </label>
+        <input
+          type="number"
+          id="salary"
+          name="salary"
+          value={form.salary}
+          onChange={(e) => setForm({ ...form, salary: e.target.value })}
+          style={{
+            width: '100%',
+            padding: '8px',
+            marginBottom: '1rem',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <label htmlFor="location" style={{ display: 'block', marginBottom: '0.25rem' }}>
+          Location:
+        </label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value={form.location}
+          onChange={(e) => setForm({ ...form, location: e.target.value })}
+          style={{
+            width: '100%',
+            padding: '8px',
+            marginBottom: '1.5rem',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+          }}
+        />
+
+        <button
+          type="submit"
+          style={{
+            width: '100%',
+            padding: '10px',
+            backgroundColor: '#28a745',
+            color: 'white',
+            fontWeight: 'bold',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+        >
+          {location.state?.employee ? 'Update Employee' : 'Add Employee'}
+        </button>
+      </form>
     </div>
   );
 };

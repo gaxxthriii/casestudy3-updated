@@ -1,48 +1,121 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import '../css/Login.css'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 const Navbar = () => {
-  const userRole = localStorage.getItem('role'); 
+  const userRole = localStorage.getItem('role');
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('logintoken');
+    localStorage.removeItem('role');
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: 'grey', fontWeight:'600' }}>
-      <div className="container-fluid">
-        <Link className="navbar-brand text-white" to="/">
+    <nav
+      style={{
+        backgroundColor: '#4a4a4a',
+        padding: '10px 20px',
+        fontWeight: 600,
+        color: 'white',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            textDecoration: 'none',
+            color: 'white',
+            fontSize: '1.5rem',
+            fontWeight: '700',
+          }}
+        >
           Employee Management
         </Link>
-        
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
+
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: 'white',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            display: 'none',
+          }}
+          aria-label="Toggle menu"
+          className="menu-toggle"
+        >
+          &#9776;
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-                        {userRole === 'admin' && (
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/admin-dashboard">Admin Dashboard</Link>
-              </li>
-            )}
 
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/employees">Employee List</Link>
+        <ul
+          style={{
+            listStyle: 'none',
+            display: 'flex',
+            gap: '20px',
+            margin: 0,
+            padding: 0,
+            flexGrow: 1,
+            justifyContent: 'flex-end',
+          }}
+          className={menuOpen ? 'menu-open' : ''}
+        >
+          {userRole === 'admin' && (
+            <li>
+              <Link
+                to="/admin-dashboard"
+                style={{ color: 'white', textDecoration: 'none' }}
+              >
+                Admin Dashboard
+              </Link>
             </li>
-            {userRole === 'admin' && (
+          )}
 
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/add-employee">Add Employee</Link>
+          <li>
+            <Link
+              to="/employees"
+              style={{ color: 'white', textDecoration: 'none' }}
+            >
+              Employee List
+            </Link>
+          </li>
+
+          {userRole === 'admin' && (
+            <li>
+              <Link
+                to="/add-employee"
+                style={{ color: 'white', textDecoration: 'none' }}
+              >
+                Add Employee
+              </Link>
             </li>
-            )}
+          )}
 
-
-            <li className="nav-item">
-              <Link className="nav-link text-white" to="/" onClick={() => {
-                localStorage.removeItem('logintoken'); 
-                localStorage.removeItem('role'); 
-              }}>Logout</Link>
-            </li>
-          </ul>
-        </div>
+          <li>
+            <Link
+              to="/"
+              onClick={handleLogout}
+              style={{ color: 'white', textDecoration: 'none' }}
+            >
+              Logout
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
-  )
-}
+  );
+};
 
 export default Navbar;
